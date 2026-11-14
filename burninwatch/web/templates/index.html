@@ -749,7 +749,7 @@
             <div style="margin-top: 14px;">
               <div class="form-group">
                 <label class="form-label">Nu Parameter (&approx; Outlier Proportion)</label>
-                <input type="number" class="glass-input" id="param-ocsvm-nu" value="0.08" step="0.01" min="0.01" max="0.30">
+                <input type="number" class="glass-input" id="param-ocsvm-nu" value="0.08" step="0.01" min="0.01" max="0.30" oninput="const val=parseFloat(this.value); if(!isNaN(val)&&val>=0.01&&val<=0.25){const sl=document.getElementById('param-contamination');if(sl)sl.value=val;const d=document.getElementById('contamination-display');if(d)d.textContent=Math.round(val*100)+'%';}">
               </div>
             </div>
           </div>
@@ -787,7 +787,7 @@
           </div>
           <div class="card-subtitle">Configures decision boundary sensitivity across models (default: 8%)</div>
           <div style="margin-top: 14px; display: flex; align-items: center; gap: 16px;">
-            <input type="range" id="param-contamination" min="0.01" max="0.25" step="0.01" value="0.08" style="flex: 1;">
+            <input type="range" id="param-contamination" min="0.01" max="0.25" step="0.01" value="0.08" style="flex: 1;" oninput="document.getElementById('contamination-display').textContent=Math.round(this.value*100)+'%'; const nu=document.getElementById('param-ocsvm-nu'); if(nu) nu.value=parseFloat(this.value).toFixed(2);">
             <span id="contamination-display" style="font-weight: 700; min-width: 45px;">8%</span>
           </div>
         </div>

@@ -476,6 +476,27 @@ async function runAnomalyModels() {
   }
 }
 
+// Anomaly Prior / Contamination Rate Slider Handlers
+function handleContaminationSliderChange(e) {
+  const val = parseFloat(e.target.value);
+  const pct = Math.round(val * 100);
+  const display = document.getElementById("contamination-display");
+  if (display) display.textContent = `${pct}%`;
+
+  const ocsvmNu = document.getElementById("param-ocsvm-nu");
+  if (ocsvmNu) ocsvmNu.value = val.toFixed(2);
+}
+
+function handleOcsvmNuChange(e) {
+  const val = parseFloat(e.target.value);
+  if (!isNaN(val) && val >= 0.01 && val <= 0.25) {
+    const slider = document.getElementById("param-contamination");
+    if (slider) slider.value = val;
+    const display = document.getElementById("contamination-display");
+    if (display) display.textContent = `${Math.round(val * 100)}%`;
+  }
+}
+
 // ==========================================================================
 // Dashboard View & Visualizations
 // ==========================================================================
@@ -1458,6 +1479,18 @@ document.addEventListener("DOMContentLoaded", () => {
     resetComponentDropdowns();
     runAnomalyModels();
   });
+
+  // Anomaly Prior (Contamination Rate) Slider & OCSVM Nu Sync
+  const contSlider = document.getElementById("param-contamination");
+  if (contSlider) {
+    contSlider.addEventListener("input", handleContaminationSliderChange);
+    contSlider.addEventListener("change", handleContaminationSliderChange);
+  }
+  const ocsvmNu = document.getElementById("param-ocsvm-nu");
+  if (ocsvmNu) {
+    ocsvmNu.addEventListener("input", handleOcsvmNuChange);
+    ocsvmNu.addEventListener("change", handleOcsvmNuChange);
+  }
 
   // Live Dashboard Sensitivity Sliders
   document.getElementById("dash-slider-susp")?.addEventListener("input", handleThresholdSliderChange);
