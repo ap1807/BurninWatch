@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BurninWatch – Component Screening Anomaly Detection</title>
+  
+  <!-- Chart.js for Responsive 60fps Visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  
+  <!-- Lucide Icons for Premium Industrial SaaS UI -->
+  <script src="/static/js/lucide.min.js"></script>
+  <script>
+    if (typeof lucide === 'undefined') {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"><\/script>');
+    }
+  </script>
+
+  <!-- Liquid Glassmorphism Design System -->
+  <link rel="stylesheet" href="/static/css/glassmorphism.css">
+</head>
+<body>
+
+  <!-- Ambient Liquid Glow Orbs for Authentic Glass Depth -->
+  <div class="ambient-glow-container" aria-hidden="true">
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+  </div>
+
+  <!-- Top Glass Header -->
+  <header class="top-header">
+    <div class="brand-container">
+      <div class="brand-icon-chip" title="BurninWatch Engine">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circuit-board">
+          <rect width="18" height="18" x="3" y="3" rx="2" />
+          <path d="M11 9h4a2 2 0 0 0 2-2V3" />
+          <circle cx="9" cy="9" r="2" />
+          <path d="M7 21v-4a2 2 0 0 1 2-2h4" />
+          <circle cx="15" cy="15" r="2" />
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title">BurninWatch</div>
+        <div class="brand-subtitle">Component Screening Anomaly Detection</div>
+      </div>
+    </div>
+
+    <!-- Active Dataset Pill with Database Indicator -->
+    <div class="header-status-pill">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-database" style="color: var(--accent-blue);">
+        <ellipse cx="12" cy="5" rx="9" ry="3" />
+        <path d="M3 5V19A9 3 0 0 0 21 19V5" />
+        <path d="M3 12A9 3 0 0 0 21 12" />
+      </svg>
+      <span class="status-dot" id="header-status-dot"></span>
+      <span id="header-status-text">No Dataset Loaded</span>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <a href="/api/template/csv" class="btn-glass btn-secondary" style="font-size:12px; padding: 7px 14px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-down">
+          <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+          <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+          <path d="M12 18v-6" />
+          <path d="m9 15 3 3 3-3" />
+        </svg>
+        Download CSV Template
+      </a>
+
+      <!-- Theme Toggle Button -->
+      <button class="theme-toggle-btn" id="btn-toggle-theme" title="Toggle Light / Dark Theme" aria-label="Toggle Theme">
+        <span id="theme-toggle-icon" style="display:inline-flex; align-items:center; justify-content:center;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2" />
+            <path d="M12 20v2" />
+            <path d="m4.93 4.93 1.41 1.41" />
+            <path d="m17.66 17.66 1.41 1.41" />
+            <path d="M2 12h2" />
+            <path d="M20 12h2" />
+            <path d="m6.34 17.66-1.41 1.41" />
+            <path d="m19.07 4.93-1.41 1.41" />
+          </svg>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Floating Segmented Navigation Track -->
+  <nav class="subnav-container">
+    <div class="nav-pill-track">
+      <button class="nav-pill-btn active" data-tab="dashboard">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard">
+          <rect width="7" height="9" x="3" y="3" rx="1" />
+          <rect width="7" height="5" x="14" y="3" rx="1" />
+          <rect width="7" height="9" x="14" y="12" rx="1" />
+          <rect width="7" height="5" x="3" y="16" rx="1" />
+        </svg>
+        Dashboard
+      </button>
+      <button class="nav-pill-btn" data-tab="upload">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-upload">
+          <path d="M12 13v8" />
+          <path d="m4 14.89-1.28.37A4 4 0 0 0 4 21h16a4 4 0 0 0 1.28-5.74L20 14.89" />
+          <path d="M16 9a4 4 0 1 0-8 0c0 .3.03.6.08.88A6 6 0 0 0 3 15.5c0 .34.03.67.1 1" />
+          <path d="m8 17 4-4 4 4" />
+        </svg>
+        Data Upload
+      </button>
+      <button class="nav-pill-btn" data-tab="quality">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check">
+          <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+          <path d="m9 12 2 2 4-4" />
+        </svg>
+        Data Quality
+      </button>
+      <button class="nav-pill-btn" data-tab="features">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-workflow">
+          <rect width="8" height="8" x="3" y="3" rx="2" />
+          <path d="M7 11v4a2 2 0 0 0 2 2h4" />
+          <rect width="8" height="8" x="13" y="13" rx="2" />
+        </svg>
+        Feature Engineering
+      </button>
+      <button class="nav-pill-btn" data-tab="models">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scan-search">
+          <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+          <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+          <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+          <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+          <circle cx="12" cy="12" r="3" />
+          <path d="m16 16-1.9-1.9" />
+        </svg>
+        Anomaly Detection
+      </button>
+      <button class="nav-pill-btn" data-tab="component">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cpu">
+          <rect width="16" height="16" x="4" y="4" rx="2" />
+          <rect width="6" height="6" x="9" y="9" rx="1" />
+          <path d="M15 2v2" />
+          <path d="M15 20v2" />
+          <path d="M2 15h2" />
+          <path d="M2 9h2" />
+          <path d="M20 15h2" />
+          <path d="M20 9h2" />
+          <path d="M9 2v2" />
+          <path d="M9 20v2" />
+        </svg>
+        Component Analysis
+      </button>
+      <button class="nav-pill-btn" data-tab="comparison">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-git-compare-arrows">
+          <circle cx="5" cy="6" r="3" />
+          <path d="M12 6h5a2 2 0 0 1 2 2v7" />
+          <path d="m15 9-3-3 3-3" />
+          <circle cx="19" cy="18" r="3" />
+          <path d="M12 18H7a2 2 0 0 1-2-2V9" />
+          <path d="m9 15 3 3-3 3" />
+        </svg>
+        Model Comparison
+      </button>
+      <button class="nav-pill-btn" data-tab="results">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-check">
+          <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+          <path d="m9 14 2 2 4-4" />
+        </svg>
+        Screening Results
+      </button>
+      <button class="nav-pill-btn" data-tab="reports">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-bar-chart">
+          <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+          <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+          <path d="M8 18v-2" />
+          <path d="M12 18v-4" />
+          <path d="M16 18v-6" />
+        </svg>
+        Reports
+      </button>
+      <button class="nav-pill-btn" data-tab="settings">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-2">
+          <path d="M20 7h-9" />
+          <path d="M14 17H5" />
+          <circle cx="17" cy="17" r="3" />
+          <circle cx="7" cy="7" r="3" />
+        </svg>
+        Settings
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main View Container -->
+  <main class="app-container">
+
+    <!-- ====================================================================
+         VIEW 1: DASHBOARD
+         ==================================================================== -->
+    <section class="view-section active" id="view-dashboard">
+      <!-- Empty State -->
+      <div class="glass-empty-state" id="dashboard-empty-state" style="display: none;">
+        <div class="empty-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-bar-chart">
+            <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+            <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+            <path d="M8 18v-2" />
+            <path d="M12 18v-4" />
+            <path d="M16 18v-6" />
+          </svg>
+        </div>
+        <h2 class="empty-title">No Burn-in Screening Data Available</h2>
+        <p class="empty-desc">
+          Upload an electronic component burn-in dataset (.csv or .xlsx) or explore the pre-packaged automotive HTOL benchmark dataset to run unsupervised degradation anomaly screening.
+        </p>
+        <div style="display:flex; justify-content:center; gap: 14px;">
+          <button class="btn-glass btn-primary" onclick="switchTab('upload')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-upload">
+              <path d="M12 13v8" />
+              <path d="m4 14.89-1.28.37A4 4 0 0 0 4 21h16a4 4 0 0 0 1.28-5.74L20 14.89" />
+              <path d="M16 9a4 4 0 1 0-8 0c0 .3.03.6.08.88A6 6 0 0 0 3 15.5c0 .34.03.67.1 1" />
+              <path d="m8 17 4-4 4 4" />
+            </svg>
+            Upload Custom Dataset
+          </button>
+          <button class="btn-glass btn-secondary" id="btn-empty-load-sample">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles">
+              <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
+              <path d="M20 3v4" />
+              <path d="M22 5h-4" />
+              <path d="M4 17v2" />
+              <path d="M5 18H3" />
+            </svg>
+            Load Benchmark Dataset
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Dashboard Content -->
+      <div id="dashboard-content">
+        <!-- Notice Banner -->
+        <div class="glass-banner banner-disclaimer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info" style="color: var(--accent-blue); flex-shrink:0;">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 16v-4" />
+            <path d="M12 8h.01" />
+          </svg>
+          <div>
+            <strong>Industrial Burn-in Anomaly Detection Active:</strong> 
+            BurninWatch evaluates temporal degradation trajectories, instability indices, and drift rates using genuine Unsupervised Machine Learning. Anomaly scores identify statistical outliers requiring engineering review, and do not represent confirmed physical failure probabilities.
+          </div>
+        </div>
+
+        <!-- KPI Grid -->
+        <div class="grid-4" style="margin-bottom: 24px;">
+          <div class="kpi-tile" style="border-top: 3px solid var(--accent-blue);">
+            <div class="kpi-top">
+              <span class="kpi-label">Total Screened</span>
+              <div class="kpi-icon-bubble" style="background: rgba(2, 132, 199, 0.15); color: var(--accent-blue);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layers">
+                  <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z" />
+                  <path d="m22 12.5-8.58 3.91a2 2 0 0 1-1.66 0L2 12.5" />
+                  <path d="m22 17.5-8.58 3.91a2 2 0 0 1-1.66 0L2 17.5" />
+                </svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpi-total">0</div>
+            <div class="kpi-footer">100% evaluated via Unsupervised ML</div>
+          </div>
+
+          <div class="kpi-tile" style="border-top: 3px solid var(--accent-emerald);">
+            <div class="kpi-top">
+              <span class="kpi-label">Normal Pass</span>
+              <div class="kpi-icon-bubble" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle-2">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpi-normal" style="color: var(--accent-emerald);">0</div>
+            <div class="kpi-footer">Stable burn-in degradation trajectory</div>
+          </div>
+
+          <div class="kpi-tile" style="border-top: 3px solid var(--accent-amber);">
+            <div class="kpi-top">
+              <span class="kpi-label">Suspicious</span>
+              <div class="kpi-icon-bubble" style="background: rgba(245, 158, 11, 0.15); color: var(--accent-amber);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alert-triangle">
+                  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                  <line x1="12" y1="9" x2="12" y2="13" />
+                  <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpi-suspicious" style="color: var(--accent-amber);">0</div>
+            <div class="kpi-footer">Moderate drift or local instability</div>
+          </div>
+
+          <div class="kpi-tile" style="border-top: 3px solid var(--accent-rose);">
+            <div class="kpi-top">
+              <span class="kpi-label">High Anomaly</span>
+              <div class="kpi-icon-bubble" style="background: rgba(239, 68, 68, 0.15); color: var(--accent-rose);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alert-octagon">
+                  <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpi-high" style="color: var(--accent-rose);">0</div>
+            <div class="kpi-footer">Steep slope, jump, or subspace outlier</div>
+          </div>
+        </div>
+
+        <!-- Special Focus Cards: Hidden Degradation Risks vs Static Limit Failures -->
+        <div class="grid-2" style="margin-bottom: 24px;">
+          <div class="glass-card" style="border-left: 4px solid var(--accent-purple);">
+            <div class="card-header">
+              <div>
+                <div class="card-title" style="color: var(--accent-purple);">
+                  <span style="display:inline-flex; align-items:center; gap:8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scan-search" style="color: var(--accent-purple);">
+                      <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+                      <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+                      <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+                      <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+                      <circle cx="12" cy="12" r="3" />
+                      <path d="m16 16-1.9-1.9" />
+                    </svg>
+                    Hidden Degradation Risks
+                  </span>
+                </div>
+                <div class="card-subtitle">Components that passed static engineering limits but exhibit abnormal degradation</div>
+              </div>
+              <div class="kpi-value" id="kpi-hidden" style="color: var(--accent-purple); font-size: 28px;">0</div>
+            </div>
+            <p style="font-size: 13px;">
+              These components represent the primary objective of BurninWatch: units whose measurements remain inside standard AEC-Q100/MIL-STD static thresholds, but whose temporal degradation slope, variance, or drift trajectory indicates early-life reliability hazard.
+            </p>
+          </div>
+
+          <div class="glass-card" style="border-left: 4px solid var(--accent-rose);">
+            <div class="card-header">
+              <div>
+                <div class="card-title" style="color: var(--accent-rose);">
+                  <span style="display:inline-flex; align-items:center; gap:8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban" style="color: var(--accent-rose);">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="m4.9 4.9 14.2 14.2" />
+                    </svg>
+                    Static Limit Violations
+                  </span>
+                </div>
+                <div class="card-subtitle">Components that breached predefined static upper or lower specification limits (USL/LSL)</div>
+              </div>
+              <div class="kpi-value" id="kpi-static-fail" style="color: var(--accent-rose); font-size: 28px;">0</div>
+            </div>
+            <p style="font-size: 13px;">
+              Identified through traditional static screening threshold evaluation. BurninWatch separates these hard failures from purely trend-based degradation anomalies.
+            </p>
+          </div>
+        </div>
+
+        <!-- Live Interactive Anomaly Sensitivity Tuner -->
+        <div class="glass-card" style="padding: 16px 24px; margin-bottom: 24px; background: var(--glass-surface-subtle); border: 1px solid var(--accent-blue-glow);">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <div style="font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 8px;">
+                <span style="display:inline-flex; align-items:center; gap:8px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sliders-horizontal" style="color: var(--accent-blue);">
+                    <line x1="21" x2="14" y1="4" y2="4" />
+                    <line x1="10" x2="3" y1="4" y2="4" />
+                    <line x1="21" x2="12" y1="12" y2="12" />
+                    <line x1="8" x2="3" y1="12" y2="12" />
+                    <line x1="21" x2="16" y1="20" y2="20" />
+                    <line x1="12" x2="3" y1="20" y2="20" />
+                    <line x1="14" x2="14" y1="2" y2="6" />
+                    <line x1="8" x2="8" y1="10" y2="14" />
+                    <line x1="16" x2="16" y1="18" y2="22" />
+                  </svg>
+                  Live Screening Threshold Sensitivity
+                </span>
+                <span class="compare-badge">Interactive</span>
+              </div>
+              <div style="font-size: 12px; color: var(--text-muted);">Adjust score thresholds in real time to re-partition Normal, Suspicious, and High Anomaly classifications</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 12px; font-weight: 600; color: var(--accent-amber);">Suspicious Threshold:</span>
+                <input type="range" id="dash-slider-susp" min="30" max="75" value="60" style="width: 110px;">
+                <span id="dash-val-susp" style="font-weight: 700; font-size: 13px; min-width: 28px;">60</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 12px; font-weight: 600; color: var(--accent-rose);">High Anomaly Threshold:</span>
+                <input type="range" id="dash-slider-high" min="70" max="95" value="80" style="width: 110px;">
+                <span id="dash-val-high" style="font-weight: 700; font-size: 13px; min-width: 28px;">80</span>
+              </div>
+              <button class="btn-glass btn-secondary" id="btn-reset-thresholds" style="padding: 5px 12px; font-size: 11px; display:inline-flex; align-items:center; gap:5px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                  <path d="M3 3v5h5" />
+                </svg>
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Grid 1: Categories & Score Distribution -->
+        <div class="grid-2" style="margin-bottom: 24px;">
+          <div class="glass-card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Screening Category Breakdown</div>
+                <div class="card-subtitle">Component distribution across Normal, Suspicious, and High Anomaly</div>
+              </div>
+            </div>
+            <div style="height: 260px; position: relative;">
+              <canvas id="chart-category-doughnut"></canvas>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Degradation Anomaly Score Distribution</div>
+                <div class="card-subtitle">Composite normalized screening index (0-100 scale)</div>
+              </div>
+            </div>
+            <div style="height: 260px; position: relative;">
+              <canvas id="chart-score-dist"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Grid 2: Batch Breakdown & Degradation Scatter -->
+        <div class="grid-2" style="margin-bottom: 24px;">
+          <div class="glass-card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Batch-wise Anomaly Comparison</div>
+                <div class="card-subtitle">Normal vs Suspicious vs High Anomaly across manufacturing lots</div>
+              </div>
+            </div>
+            <div style="height: 260px; position: relative;">
+              <canvas id="chart-batch-breakdown"></canvas>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Degradation Slope vs Measurement Instability</div>
+                <div class="card-subtitle">Multivariate scatter separating steady components from drifters</div>
+              </div>
+            </div>
+            <div style="height: 260px; position: relative;">
+              <canvas id="chart-degradation-scatter"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Flagged Components Table -->
+        <div class="glass-card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Top Flagged Components Requiring Engineering Review</div>
+              <div class="card-subtitle">Click any component to inspect its degradation curves and statistical explanations</div>
+            </div>
+            <button class="btn-glass btn-secondary" onclick="switchTab('results')">
+              View All Results
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+          <div class="table-container">
+            <table class="glass-table">
+              <thead>
+                <tr>
+                  <th>Component ID</th>
+                  <th>Batch / Lot</th>
+                  <th>Screening Category</th>
+                  <th>Anomaly Score</th>
+                  <th>Engineering Limits</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="top-flagged-table-body">
+                <tr><td colspan="6" style="text-align: center; padding: 20px;">Loading flagged components...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 2: DATA UPLOAD
+         ==================================================================== -->
+    <section class="view-section" id="view-upload">
+      <div class="glass-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Upload Burn-in Measurement Dataset</h2>
+            <div class="card-subtitle">Upload genuine electronic component testing data (.csv, .xlsx, .xls)</div>
+          </div>
+          <button class="btn-glass btn-primary" id="btn-load-sample">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles">
+              <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
+              <path d="M20 3v4" />
+              <path d="M22 5h-4" />
+              <path d="M4 17v2" />
+              <path d="M5 18H3" />
+            </svg>
+            Load Automotive HTOL Benchmark
+          </button>
+        </div>
+
+        <!-- Drag & Drop Zone -->
+        <div class="dropzone-box" id="upload-dropzone">
+          <input type="file" id="file-input" accept=".csv,.xlsx,.xls,.tsv" style="display: none;">
+          <div class="dropzone-icon" style="margin-bottom: 12px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-upload" style="color: var(--accent-blue);">
+              <path d="M12 13v8" />
+              <path d="m4 14.89-1.28.37A4 4 0 0 0 4 21h16a4 4 0 0 0 1.28-5.74L20 14.89" />
+              <path d="M16 9a4 4 0 1 0-8 0c0 .3.03.6.08.88A6 6 0 0 0 3 15.5c0 .34.03.67.1 1" />
+              <path d="m8 17 4-4 4 4" />
+            </svg>
+          </div>
+          <div style="font-size: 16px; font-weight: 600; margin-bottom: 6px;">Click or Drag & Drop Burn-in Testing Dataset Here</div>
+          <div style="font-size: 12px; color: var(--text-muted);">Supports standard CSV, TSV, and Excel spreadsheets up to 100MB</div>
+        </div>
+      </div>
+
+      <!-- File Metadata Card -->
+      <div class="glass-card" id="upload-file-info-card" style="display: none;">
+        <div class="card-header">
+          <div class="card-title">Active Dataset Metadata</div>
+          <button class="btn-glass btn-secondary" onclick="runDataAudit()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check">
+              <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
+            Re-run Quality Audit
+          </button>
+        </div>
+        <div class="grid-4">
+          <div>
+            <div class="form-label">Filename</div>
+            <div style="font-weight: 600;" id="fi-filename">—</div>
+          </div>
+          <div>
+            <div class="form-label">File Size</div>
+            <div style="font-weight: 600;" id="fi-size">—</div>
+          </div>
+          <div>
+            <div class="form-label">Total Records</div>
+            <div style="font-weight: 600;" id="fi-records">—</div>
+          </div>
+          <div>
+            <div class="form-label">Uploaded At</div>
+            <div style="font-weight: 600;" id="fi-time">—</div>
+          </div>
+        </div>
+        <div style="margin-top: 14px; font-size: 12px; color: var(--text-muted);">
+          SHA-256 Audit Integrity Hash: <code id="fi-hash">—</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 3: DATA QUALITY & PREPROCESSING AUDIT
+         ==================================================================== -->
+    <section class="view-section" id="view-quality">
+      <div class="glass-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Data Quality & Preprocessing Audit</h2>
+            <div class="card-subtitle">Automated validation, missing value imputation, duplicate handling, and sampling regularity</div>
+          </div>
+          <button class="btn-glass btn-primary" onclick="runDataAudit()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check">
+              <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
+            Re-Execute Audit
+          </button>
+        </div>
+
+        <!-- Quality Warnings Banner Container -->
+        <div id="qa-warnings-container" style="margin-bottom: 20px;"></div>
+
+        <!-- Quality Metrics Grid -->
+        <div class="grid-4" style="margin-bottom: 20px;">
+          <div class="kpi-tile">
+            <span class="kpi-label">Records Cleaned</span>
+            <div class="kpi-value" id="qa-total-records">0 / 0</div>
+            <div class="kpi-footer">Excluded corrupted rows</div>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Components (DUTs)</span>
+            <div class="kpi-value" id="qa-components">0</div>
+            <div class="kpi-footer">Independent component trajectories</div>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Manufacturing Lots</span>
+            <div class="kpi-value" id="qa-batches">0</div>
+            <div class="kpi-footer">Stratified cohort groups</div>
+          </div>
+          <div class="kpi-tile">
+            <span class="kpi-label">Quality Grade</span>
+            <div class="kpi-value" id="qa-grade" style="color: var(--accent-emerald);">—</div>
+            <div class="kpi-footer">Suitability for Unsupervised ML</div>
+          </div>
+        </div>
+
+        <!-- Observations & Sampling Details -->
+        <div class="grid-2">
+          <div class="glass-card" style="margin-bottom: 0;">
+            <div class="card-title" style="margin-bottom: 12px; font-size: 15px;">Sampling Rate & Intervals</div>
+            <div style="font-size: 13px; line-height: 1.8;">
+              <div>Average Sampling Interval (&Delta;t): <strong id="qa-dt-mean">—</strong></div>
+              <div>Sampling Regularity: <strong id="qa-dt-regular">—</strong></div>
+              <div>Available Measurement Channels: <strong id="qa-channels">—</strong></div>
+            </div>
+          </div>
+
+          <div class="glass-card" style="margin-bottom: 0;">
+            <div class="card-title" style="margin-bottom: 12px; font-size: 15px;">Trajectory Length per Component</div>
+            <div style="font-size: 13px; line-height: 1.8;">
+              <div>Minimum Observations: <strong id="qa-min-obs">—</strong></div>
+              <div>Maximum Observations: <strong id="qa-max-obs">—</strong></div>
+              <div>Average Observations: <strong id="qa-mean-obs">—</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 4: FEATURE ENGINEERING
+         ==================================================================== -->
+    <section class="view-section" id="view-features">
+      <div class="glass-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Degradation-Focused Engineered Features</h2>
+            <div class="card-subtitle">Temporal degradation slopes, cumulative drift, coefficient of variation, local volatility, and step shifts</div>
+          </div>
+        </div>
+        <p style="font-size: 13px; margin-bottom: 16px;">
+          Rather than treating each measurement as an isolated static point, BurninWatch summarizes the entire multi-hour degradation trajectory into physically meaningful drift and stability dimensions.
+        </p>
+
+        <div class="table-container">
+          <table class="glass-table">
+            <thead id="features-table-head"></thead>
+            <tbody id="features-table-body">
+              <tr><td colspan="8" style="text-align: center; padding: 24px;">No features extracted yet. Run Data Audit first.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 5: ANOMALY DETECTION MODELS
+         ==================================================================== -->
+    <section class="view-section" id="view-models">
+      <div class="glass-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Unsupervised Anomaly Detection Algorithms</h2>
+            <div class="card-subtitle">Configure model hyperparameters and train unsupervised models on degradation features</div>
+          </div>
+          <button class="btn-glass btn-primary" id="btn-run-screening">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scan-search">
+              <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+              <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+              <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+              <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+              <circle cx="12" cy="12" r="3" />
+              <path d="m16 16-1.9-1.9" />
+            </svg>
+            Run Unsupervised Screening
+          </button>
+        </div>
+
+        <!-- Algorithm Config Cards -->
+        <div class="grid-2" style="margin-bottom: 24px;">
+          <!-- Isolation Forest -->
+          <div class="glass-card" style="margin-bottom: 0;">
+            <div class="card-title" style="display:flex; align-items:center; gap:8px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-git-fork" style="color:var(--accent-blue);">
+                <circle cx="12" cy="18" r="3" />
+                <circle cx="6" cy="6" r="3" />
+                <circle cx="18" cy="6" r="3" />
+                <path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9" />
+                <path d="M12 12v3" />
+              </svg>
+              1. Isolation Forest
+            </div>
+            <div class="card-subtitle">Randomized recursive feature partitioning isolation depth</div>
+            <div style="margin-top: 14px;">
+              <div class="form-group">
+                <label class="form-label">Number of Trees (n_estimators)</label>
+                <input type="number" class="glass-input" id="param-if-trees" value="150" min="50" max="500">
+              </div>
+            </div>
+          </div>
+
+          <!-- Local Outlier Factor -->
+          <div class="glass-card" style="margin-bottom: 0;">
+            <div class="card-title" style="display:flex; align-items:center; gap:8px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-radio" style="color:var(--accent-emerald);">
+                <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9" />
+                <path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5" />
+                <circle cx="12" cy="12" r="2" />
+                <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5" />
+                <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19" />
+              </svg>
+              2. Local Outlier Factor (LOF)
+            </div>
+            <div class="card-subtitle">Local reachability density deviation relative to k-nearest neighbors</div>
+            <div style="margin-top: 14px;">
+              <div class="form-group">
+                <label class="form-label">Neighborhood Size (k-neighbors)</label>
+                <input type="number" class="glass-input" id="param-lof-k" value="20" min="5" max="50">
+              </div>
+            </div>
+          </div>
+
+          <!-- One-Class SVM -->
+          <div class="glass-card" style="margin-bottom: 0;">
+            <div class="card-title" style="display:flex; align-items:center; gap:8px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-crosshair" style="color:var(--accent-purple);">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="22" x2="18" y1="12" y2="12" />
+                <line x1="6" x2="2" y1="12" y2="12" />
+                <line x1="12" x2="12" y1="6" y2="2" />
+                <line x1="12" x2="12" y1="22" y2="18" />
+              </svg>
+              3. One-Class SVM
+            </div>
+            <div class="card-subtitle">Maximum margin non-linear support vector hyperplane boundary</div>
+            <div style="margin-top: 14px;">
+              <div class="form-group">
+                <label class="form-label">Nu Parameter (&approx; Outlier Proportion)</label>
+                <input type="number" class="glass-input" id="param-ocsvm-nu" value="0.08" step="0.01" min="0.01" max="0.30">
+              </div>
+            </div>
+          </div>
+
+          <!-- PCA Reconstruction Error -->
+          <div class="glass-card" style="margin-bottom: 0;">
+            <div class="card-title" style="display:flex; align-items:center; gap:8px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-grid" style="color:var(--accent-amber);">
+                <rect width="18" height="18" x="3" y="3" rx="2" />
+                <line x1="3" x2="21" y1="9" y2="9" />
+                <line x1="3" x2="21" y1="15" y2="15" />
+                <line x1="9" x2="9" y1="3" y2="21" />
+                <line x1="15" x2="15" y1="3" y2="21" />
+              </svg>
+              4. PCA Reconstruction Error
+            </div>
+            <div class="card-subtitle">Low-rank subspace residual divergence and projection error</div>
+            <div style="margin-top: 14px;">
+              <div class="form-group">
+                <label class="form-label">Principal Components Retained</label>
+                <input type="number" class="glass-input" id="param-pca-k" value="3" min="1" max="10">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Global Contamination Slider -->
+        <div class="glass-card" style="margin-bottom: 0;">
+          <div class="card-title" style="display:flex; align-items:center; gap:8px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gauge" style="color:var(--accent-blue);">
+              <path d="m12 14 4-4" />
+              <path d="M3.34 19a10 10 0 1 1 17.32 0" />
+            </svg>
+            Global Expected Anomaly Prior (Contamination Rate)
+          </div>
+          <div class="card-subtitle">Configures decision boundary sensitivity across models (default: 8%)</div>
+          <div style="margin-top: 14px; display: flex; align-items: center; gap: 16px;">
+            <input type="range" id="param-contamination" min="0.01" max="0.25" step="0.01" value="0.08" style="flex: 1;">
+            <span id="contamination-display" style="font-weight: 700; min-width: 45px;">8%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 6: COMPONENT DEEP-DIVE ANALYSIS
+         ==================================================================== -->
+    <section class="view-section" id="view-component">
+      <div class="glass-card">
+        <div class="card-header" style="flex-wrap: wrap; gap: 16px;">
+          <div style="display:flex; align-items:center; gap: 14px; flex-wrap: wrap;">
+            <div>
+              <h2 class="card-title" id="cd-component-id">DUT_001</h2>
+              <div class="card-subtitle">
+                Lot: <span id="cd-batch">—</span> | Condition: <span id="cd-condition">—</span>
+              </div>
+            </div>
+            <span class="glass-badge badge-high" id="cd-cat-badge">High Anomaly</span>
+            <span class="glass-badge badge-normal" id="cd-limit-badge">Passes Limits</span>
+          </div>
+
+          <!-- Component Selectors: Primary & Comparison -->
+          <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <div style="min-width: 200px;">
+              <label class="form-label" style="margin-bottom: 2px;">Device Under Test (DUT)</label>
+              <select class="glass-select" id="component-selector-dropdown"></select>
+            </div>
+            <div style="min-width: 200px;">
+              <label class="form-label" style="margin-bottom: 2px;">Compare with Reference DUT</label>
+              <select class="glass-select" id="component-compare-dropdown">
+                <option value="">-- No Comparison --</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hidden Degradation Risk Banner -->
+        <div class="glass-banner" id="cd-hidden-risk-banner" style="background: rgba(139, 92, 246, 0.12); border: 1px solid var(--accent-purple); display: none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scan-search" style="color:var(--accent-purple); flex-shrink:0;">
+            <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+            <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+            <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+            <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+            <circle cx="12" cy="12" r="3" />
+            <path d="m16 16-1.9-1.9" />
+          </svg>
+          <div>
+            <strong>Hidden Degradation Risk Identified:</strong> This component strictly satisfies all static engineering limits (LSL/USL), but exhibits statistically abnormal degradation drift or instability during burn-in that traditional threshold screening overlooked.
+          </div>
+        </div>
+
+        <!-- Metric Score Tile -->
+        <div class="grid-4" style="margin-bottom: 20px;">
+          <div class="kpi-tile">
+            <span class="kpi-label">Anomaly Score</span>
+            <div class="kpi-value" id="cd-score">0.0 / 100</div>
+            <div class="kpi-footer">Composite Screening Metric</div>
+          </div>
+        </div>
+
+        <!-- Degradation Curve Chart with Channel Switcher -->
+        <div class="glass-card" style="margin-bottom: 20px;">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Temporal Degradation Trajectory vs Cohort Normal Envelope</div>
+              <div class="card-subtitle">Component reading over elapsed burn-in hours compared against comparable batch envelope</div>
+            </div>
+            <!-- Channel Switcher Buttons -->
+            <div id="channel-switcher-buttons" style="display: flex; gap: 8px;"></div>
+          </div>
+          <div style="height: 320px; position: relative;">
+            <canvas id="chart-component-curve"></canvas>
+          </div>
+
+          <!-- Comparison Delta Metrics Row -->
+          <div id="compare-summary-row" style="display: none; margin-top: 16px; padding: 14px 18px; background: var(--glass-surface-subtle); border-radius: 14px; border: 1px solid var(--accent-blue-glow);">
+            <div style="font-weight: 700; font-size: 13px; margin-bottom: 8px; color: var(--accent-blue); display: flex; align-items: center; gap: 6px;">
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-git-compare-arrows" style="color:var(--accent-blue);">
+                  <circle cx="5" cy="6" r="3" />
+                  <path d="M12 6h5a2 2 0 0 1 2 2v7" />
+                  <path d="m15 9-3-3 3-3" />
+                  <circle cx="19" cy="18" r="3" />
+                  <path d="M12 18H7a2 2 0 0 1-2-2V9" />
+                  <path d="m9 15 3 3-3 3" />
+                </svg>
+                Side-by-Side Comparison:
+              </span>
+              <span id="cmp-primary-name" style="color: var(--text-primary);">DUT_A</span> vs 
+              <span id="cmp-secondary-name" style="color: var(--accent-emerald);">DUT_B</span>
+            </div>
+            <div class="grid-4" id="cmp-metrics-grid" style="font-size: 12px; gap: 12px;"></div>
+          </div>
+        </div>
+
+        <!-- Explainability Section -->
+        <div class="grid-2">
+          <div class="glass-card" style="margin-bottom: 0;">
+            <div class="card-title" style="margin-bottom: 12px;">Statistical Degradation Explanations</div>
+            <ul id="cd-explanations-list" style="padding-left: 20px; font-size: 13px; line-height: 1.8;"></ul>
+          </div>
+
+          <div class="glass-card" style="margin-bottom: 0;">
+            <div class="card-title" style="margin-bottom: 12px;">Top Statistical Deviations (&Delta;&sigma;)</div>
+            <div class="table-container">
+              <table class="glass-table">
+                <thead>
+                  <tr>
+                    <th>Parameter</th>
+                    <th>Metric</th>
+                    <th>Value</th>
+                    <th>Cohort Mean</th>
+                    <th>Relative Deviation</th>
+                    <th>Impact</th>
+                  </tr>
+                </thead>
+                <tbody id="cd-deviations-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 7: MODEL COMPARISON
+         ==================================================================== -->
+    <section class="view-section" id="view-comparison">
+      <div class="glass-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Unsupervised Model Agreement & Comparison</h2>
+            <div class="card-subtitle">Analyze inter-algorithm agreement, overlap, and score distributions</div>
+          </div>
+        </div>
+
+        <!-- Algorithm Cards Grid -->
+        <div class="grid-4" id="model-comparison-cards" style="margin-bottom: 24px;"></div>
+
+        <!-- Agreement Chart -->
+        <div class="glass-card" style="margin-bottom: 24px;">
+          <div class="card-title" style="margin-bottom: 8px;">Algorithm Overlap & Consensus Distribution</div>
+          <div class="card-subtitle" style="margin-bottom: 16px;">Number of components independently flagged by multiple models</div>
+          <div style="height: 240px; position: relative;">
+            <canvas id="chart-model-agreement"></canvas>
+          </div>
+        </div>
+
+        <!-- Post-Training Evaluation Note -->
+        <div class="glass-banner banner-info">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info" style="color:var(--accent-blue); flex-shrink:0;">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 16v-4" />
+            <path d="M12 8h.01" />
+          </svg>
+          <div>
+            <strong>Unsupervised Screening Protocol:</strong> In accordance with industrial screening standards, model training operates completely without manually assigned labels. If physical failure verification tags become available post-testing, import verification records in Settings to evaluate precision and recall without biasing model fitting.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 8: SCREENING RESULTS
+         ==================================================================== -->
+    <section class="view-section" id="view-results">
+      <div class="glass-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Comprehensive Screening Results</h2>
+            <div class="card-subtitle" id="screening-results-count">0 Components</div>
+          </div>
+          <div style="display:flex; gap: 10px;">
+            <a href="/api/export/csv" class="btn-glass btn-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-down">
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+                <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                <path d="M12 18v-6" />
+                <path d="m9 15 3 3 3-3" />
+              </svg>
+              Export CSV
+            </a>
+            <a href="/api/export/excel" class="btn-glass btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-spreadsheet">
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+                <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                <path d="M8 13h2" />
+                <path d="M14 13h2" />
+                <path d="M8 17h2" />
+                <path d="M14 17h2" />
+              </svg>
+              Export Excel (.xlsx)
+            </a>
+          </div>
+        </div>
+
+        <!-- Interactive Filters Toolbar -->
+        <div class="glass-card" style="padding: 16px; margin-bottom: 20px;">
+          <div class="grid-4" style="align-items: center;">
+            <div>
+              <label class="form-label">Category Filter</label>
+              <select class="glass-select" id="filter-category">
+                <option value="All">All Categories</option>
+                <option value="High Anomaly">High Anomaly</option>
+                <option value="Suspicious">Suspicious</option>
+                <option value="Normal">Normal</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label">Manufacturing Batch</label>
+              <select class="glass-select" id="filter-batch">
+                <option value="All">All Batches</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label">Search Component ID</label>
+              <input type="text" class="glass-input" id="filter-search" placeholder="e.g. DUT_007">
+            </div>
+
+            <div>
+              <label class="form-label">Min Anomaly Score: <span id="min-score-val">0</span></label>
+              <input type="range" class="glass-input" id="filter-min-score" min="0" max="100" value="0">
+            </div>
+          </div>
+
+          <div style="margin-top: 12px; display: flex; align-items: center; gap: 8px;">
+            <input type="checkbox" id="filter-hidden-only">
+            <label for="filter-hidden-only" style="font-size: 13px; font-weight: 600; color: var(--accent-purple); cursor: pointer;">
+              Show Only Hidden Degradation Risks (Passes Limits but Anomalous)
+            </label>
+          </div>
+        </div>
+
+        <!-- Results Table -->
+        <div class="table-container">
+          <table class="glass-table">
+            <thead>
+              <tr>
+                <th>Component ID</th>
+                <th>Batch</th>
+                <th>Category</th>
+                <th>Anomaly Score</th>
+                <th>Limits Status</th>
+                <th>Screening Verdict</th>
+                <th>Inspect</th>
+              </tr>
+            </thead>
+            <tbody id="screening-results-table-body">
+              <tr><td colspan="7" style="text-align:center; padding:24px;">No results loaded.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 9: REPORTS
+         ==================================================================== -->
+    <section class="view-section" id="view-reports">
+      <div class="glass-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Screening Audit Reports & Exports</h2>
+            <div class="card-subtitle">Generate auditable documentation for reliability engineering review</div>
+          </div>
+          <div style="display:flex; gap: 10px;">
+            <a href="/api/export/report-html" target="_blank" class="btn-glass btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-printer">
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                <path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6" />
+                <rect x="6" y="14" width="12" height="8" rx="1" />
+              </svg>
+              Open Printable Audit Report
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link">
+                <path d="M15 3h6v6" />
+                <path d="M10 14 21 3" />
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="glass-banner banner-disclaimer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-alert" style="color:var(--accent-blue); flex-shrink:0;">
+            <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+            <path d="M12 8v4" />
+            <path d="M12 16h.01" />
+          </svg>
+          <div>
+            <strong>LEGAL & ENGINEERING DISCLAIMER:</strong> All BurninWatch screening indices are statistical indicators calculated via unsupervised anomaly detection. They highlight units exhibiting non-conforming degradation drift or volatility. They do not constitute a confirmed physical defect warranty or failure guarantee.
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="glass-card" style="margin-bottom: 0;">
+            <div class="card-title">Export Formats</div>
+            <div class="card-subtitle" style="margin-bottom: 16px;">Download screening records for downstream statistical systems</div>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <a href="/api/export/csv" class="btn-glass btn-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-down">
+                  <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+                  <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                  <path d="M12 18v-6" />
+                  <path d="m9 15 3 3 3-3" />
+                </svg>
+                Download CSV
+              </a>
+              <a href="/api/export/excel" class="btn-glass btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-spreadsheet">
+                  <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+                  <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                  <path d="M8 13h2" />
+                  <path d="M14 13h2" />
+                  <path d="M8 17h2" />
+                  <path d="M14 17h2" />
+                </svg>
+                Download Multi-Sheet Excel (.xlsx)
+              </a>
+            </div>
+          </div>
+
+          <div class="glass-card" style="margin-bottom: 0;">
+            <div class="card-title">Standard Empty CSV Template</div>
+            <div class="card-subtitle" style="margin-bottom: 16px;">Download header template for configuring burn-in test equipment exports</div>
+            <a href="/api/template/csv" class="btn-glass btn-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-down">
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+                <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                <path d="M12 18v-6" />
+                <path d="m9 15 3 3 3-3" />
+              </svg>
+              Download Template CSV
+            </a>
+          </div>
+        </div>
+
+        <!-- Historical Screening Runs Catalog -->
+        <div class="glass-card" style="margin-top: 24px; margin-bottom: 0;">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Historical Screening Runs & SQLite Persistence</div>
+              <div class="card-subtitle">Stored runs in SQLite catalog with file-based artifacts across server restarts</div>
+            </div>
+            <button class="btn-glass btn-secondary" id="btn-refresh-runs" style="padding: 6px 12px; font-size: 12px; display:inline-flex; align-items:center; gap:5px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refresh-cw">
+                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+                <path d="M21 3v5h-5" />
+                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+                <path d="M8 16H3v5" />
+              </svg>
+              Refresh Past Runs
+            </button>
+          </div>
+          <div class="table-container">
+            <table class="glass-table">
+              <thead>
+                <tr>
+                  <th>Run ID</th>
+                  <th>Timestamp</th>
+                  <th>Dataset</th>
+                  <th>Screened</th>
+                  <th>Normal</th>
+                  <th>Suspicious</th>
+                  <th>High Anomaly</th>
+                  <th>Hidden Risks</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="past-runs-table-body">
+                <tr><td colspan="9" style="text-align:center; padding: 20px;">No past runs loaded. Click "Refresh Past Runs" to query database.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 10: SETTINGS
+         ==================================================================== -->
+    <section class="view-section" id="view-settings">
+      <div class="glass-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Screening Thresholds & Configuration</h2>
+            <div class="card-subtitle">Customize anomaly score classification boundaries and model weights</div>
+          </div>
+          <button class="btn-glass btn-primary" id="btn-save-settings">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-save">
+              <path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
+              <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7" />
+              <path d="M7 3v4a1 1 0 0 0 1 1h7" />
+            </svg>
+            Save Settings
+          </button>
+        </div>
+
+        <div class="grid-2">
+          <div class="glass-card" style="margin-bottom: 0;">
+            <div class="card-title">Score Category Thresholds</div>
+            <div class="card-subtitle" style="margin-bottom: 16px;">Calibrate composite anomaly score partition points</div>
+            
+            <div class="form-group">
+              <label class="form-label">Suspicious Threshold (0-100)</label>
+              <input type="number" class="glass-input" id="set-susp-thresh" value="60" min="40" max="80">
+              <div class="form-hint">Scores above this value will be classified as Suspicious.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">High Anomaly Threshold (0-100)</label>
+              <input type="number" class="glass-input" id="set-high-thresh" value="80" min="70" max="95">
+              <div class="form-hint">Scores above this value will be classified as High Anomaly.</div>
+            </div>
+          </div>
+
+          <div class="glass-card" style="margin-bottom: 0;">
+            <div class="card-title">Algorithm Ensembling Weights</div>
+            <div class="card-subtitle" style="margin-bottom: 16px;">Relative weight of each model in composite score</div>
+            
+            <div class="form-group">
+              <label class="form-label">Isolation Forest Weight (30%)</label>
+              <input type="number" class="glass-input" id="set-weight-if" value="0.30" step="0.05" min="0" max="1">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Local Outlier Factor Weight (25%)</label>
+              <input type="number" class="glass-input" id="set-weight-lof" value="0.25" step="0.05" min="0" max="1">
+            </div>
+            <div class="form-group">
+              <label class="form-label">One-Class SVM Weight (20%)</label>
+              <input type="number" class="glass-input" id="set-weight-ocsvm" value="0.20" step="0.05" min="0" max="1">
+            </div>
+            <div class="form-group">
+              <label class="form-label">PCA Reconstruction Weight (25%)</label>
+              <input type="number" class="glass-input" id="set-weight-pca" value="0.25" step="0.05" min="0" max="1">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Column Mapping Modal Dialog -->
+  <div class="modal-overlay" id="mapping-modal">
+    <div class="glass-modal">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">Configure Column Mapping</h2>
+          <div class="card-subtitle">BurninWatch auto-detected these columns. Adjust any fields if needed.</div>
+        </div>
+        <button class="btn-glass btn-secondary" id="btn-close-mapping" style="padding: 6px 12px; display:inline-flex; align-items:center; justify-content:center;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x">
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div id="mapping-fields-container" style="margin-bottom: 24px;"></div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 12px;">
+        <button class="btn-glass btn-secondary" onclick="closeMappingModal()">Cancel</button>
+        <button class="btn-glass btn-primary" id="btn-submit-mapping">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check">
+            <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+            <path d="m9 12 2 2 4-4" />
+          </svg>
+          Confirm & Run Quality Audit
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- Application Logic -->
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

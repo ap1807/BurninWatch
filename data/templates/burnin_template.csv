@@ -1,0 +1,10 @@
+component_id,batch_id,test_id,timestamp,temperature_c,voltage_v,current_ma,resistance_mohm,leakage_current_ua,power_consumption_mw
+# Example row (remove comments or fill with actual testing data):
+# DUT_001,LOT_2026_A,HTOL_125C,0.0,125.0,3.300,12.45,115.2,0.12,41.08
+# DUT_001,LOT_2026_A,HTOL_125C,24.0,125.0,3.298,12.47,115.6,0.13,41.12
+# DUT_001,LOT_2026_A,HTOL_125C,48.0,125.0,3.297,12.51,116.0,0.13,41.24
+# DUT_001,LOT_2026_A,HTOL_125C,72.0,125.0,3.295,12.53,116.5,0.14,41.29
+# DUT_001,LOT_2026_A,HTOL_125C,96.0,125.0,3.294,12.56,117.1,0.15,41.37
+# DUT_001,LOT_2026_A,HTOL_125C,120.0,125.0,3.293,12.59,117.5,0.16,41.43
+# DUT_001,LOT_2026_A,HTOL_125C,144.0,125.0,3.292,12.62,118.0,0.17,41.52
+# DUT_001,LOT_2026_A,HTOL_125C,168.0,125.0,3.290,12.65,118.4,0.18,41.61
