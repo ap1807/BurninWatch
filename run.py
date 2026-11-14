@@ -12,9 +12,12 @@ import uvicorn
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 def main():
+    default_port = int(os.environ.get("PORT", 8000))
+    default_host = "0.0.0.0" if "PORT" in os.environ else "127.0.0.1"
+
     parser = argparse.ArgumentParser(description="BurninWatch - Component Screening Anomaly Detection")
-    parser.add_argument("--host", default="127.0.0.1", help="Host interface to bind (default: 127.0.0.1)")
-    parser.add_argument("--port", type=int, default=8000, help="Port to bind (default: 8000)")
+    parser.add_argument("--host", default=default_host, help=f"Host interface to bind (default: {default_host})")
+    parser.add_argument("--port", type=int, default=default_port, help=f"Port to bind (default: {default_port})")
     parser.add_argument("--reload", action="store_true", help="Enable auto-reload for development")
     args = parser.parse_args()
 
